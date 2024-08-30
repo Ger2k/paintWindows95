@@ -17,7 +17,11 @@ const $canvas = $('#canvas');
 const $colorPicker = $('#color-picker');
 const ctx = $canvas.getContext('2d');
 const $clearBtn = $('#clear-btn');
-
+const $drawBtn = $('#draw-btn');
+const $rectangleBtn = $('#rectangle-btn');
+const $ellipseBtn = $('#ellipse-btn');
+const $pickerBtn = $('#picker-btn');
+const $eraseBtn = $('#erase-btn'); 
 
 
 
@@ -41,7 +45,22 @@ $canvas.addEventListener('mouseleave', stopDrawing);
 
 $colorPicker.addEventListener('change', handleChangeColor);
 $clearBtn.addEventListener('click', clearCanvas);
-    
+$rectangleBtn.addEventListener('click', () => {
+    setMode(MODES.RECTANGLE);
+})
+$drawBtn.addEventListener('click', () => {
+    setMode(MODES.DRAW);
+})
+$ellipseBtn.addEventListener('click', () => {
+    setMode(MODES.ELLIPSE);
+})
+$pickerBtn.addEventListener('click', () => {
+    setMode(MODES.PICKER);
+})
+$eraseBtn.addEventListener('click', () => {
+    setMode(MODES.ERASE);
+})
+
 //METHODS
 
 function startDrawing(e) {
@@ -88,4 +107,30 @@ function handleChangeColor(e) {
 
 function clearCanvas() {
     ctx.clearRect(0 ,0 , $canvas.width, $canvas.height);
+}
+
+function setMode(newMode) {
+    mode = newMode;
+    $('button.active')?.classList.remove('active');
+
+    if(mode === MODES.DRAW) {
+        $drawBtn.classList.add('active');
+        return;
+    }
+    if(mode === MODES.RECTANGLE) {
+        $rectangleBtn.classList.add('active');
+        return;
+    }
+    if(mode === MODES.ELLIPSE) {
+        $ellipseBtn.classList.add('active');
+        return;
+    }
+    if(mode === MODES.PICKER) {
+        $pickerBtn.classList.add('active');
+        return;
+    }
+    if(mode === MODES.ERASE) {
+        $eraseBtn.classList.add('active');
+        return;
+    }
 }
