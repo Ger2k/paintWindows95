@@ -115,6 +115,7 @@ function setMode(newMode) {
 
     if(mode === MODES.DRAW) {
         $drawBtn.classList.add('active');
+        canvas.style.cursor = 'crosshair';
         return;
     }
     if(mode === MODES.RECTANGLE) {

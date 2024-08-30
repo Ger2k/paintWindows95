@@ -119,3 +119,10 @@ aside{
     background-image: url('./09-paint-win-95/icons/trash.png');
     background-size: 18px;
 }
+#applicationBar{
+    display: block;
+    position: absolute;
+    top: 15px;
+    width: 467px;
+    height: 18px;
+}
