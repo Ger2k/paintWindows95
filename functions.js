@@ -1,4 +1,4 @@
-//CONSTANTS
+// CONSTANTS
 const MODES = {
     DRAW: 'draw',
     ERASE: 'erase',
@@ -7,12 +7,11 @@ const MODES = {
     PICKER: 'picker'
 };
 
-
-//UTILITIES
+// UTILITIES
 const $ = selector => document.querySelector(selector);
 const $$ = selector => document.querySelectorAll(selector);
 
-//ELEMENTS
+// ELEMENTS
 const $canvas = $('#canvas');
 const $colorPicker = $('#color-picker');
 const ctx = $canvas.getContext('2d');
@@ -21,116 +20,125 @@ const $drawBtn = $('#draw-btn');
 const $rectangleBtn = $('#rectangle-btn');
 const $ellipseBtn = $('#ellipse-btn');
 const $pickerBtn = $('#picker-btn');
-const $eraseBtn = $('#erase-btn'); 
+const $eraseBtn = $('#erase-btn');
 
-
-
-//STATE
-
+// STATE
 let isDrawing = false;
-let startX, startY
+let startX, startY;
 let lastX = 0;
 let lastY = 0;
 let mode = MODES.DRAW;
 
+// EVENTS
 
-
-//EVENTS
-
+// Mouse events
 $canvas.addEventListener('mousedown', startDrawing);
 $canvas.addEventListener('mousemove', draw);
 $canvas.addEventListener('mouseup', stopDrawing);
 $canvas.addEventListener('mouseleave', stopDrawing);
 
+// Touch events
+$canvas.addEventListener('touchstart', startDrawing);
+$canvas.addEventListener('touchmove', draw);
+$canvas.addEventListener('touchend', stopDrawing);
 
 $colorPicker.addEventListener('change', handleChangeColor);
 $clearBtn.addEventListener('click', clearCanvas);
 $rectangleBtn.addEventListener('click', () => {
     setMode(MODES.RECTANGLE);
-})
+});
 $drawBtn.addEventListener('click', () => {
     setMode(MODES.DRAW);
-})
+});
 $ellipseBtn.addEventListener('click', () => {
     setMode(MODES.ELLIPSE);
-})
+});
 $pickerBtn.addEventListener('click', () => {
     setMode(MODES.PICKER);
-})
+});
 $eraseBtn.addEventListener('click', () => {
     setMode(MODES.ERASE);
-})
+});
 
-//METHODS
+// METHODS
+
+function getEventCoords(e) {
+    if (e.touches) {
+        // Si es un evento táctil, tomar la primera posición de toque
+        const touch = e.touches[0];
+        return { offsetX: touch.clientX - $canvas.offsetLeft, offsetY: touch.clientY - $canvas.offsetTop };
+    } else {
+        // Si es un evento de mouse
+        return { offsetX: e.offsetX, offsetY: e.offsetY };
+    }
+}
 
 function startDrawing(e) {
+    e.preventDefault();  // Prevenir comportamiento predeterminado (como desplazamiento en móvil)
     isDrawing = true;
-    const { offsetX, offsetY } = e;
+    const { offsetX, offsetY } = getEventCoords(e);
 
-
-    //guardar las coords iniciales
+    // Guardar las coords iniciales
     [startX, startY] = [offsetX, offsetY];
     [lastX, lastY] = [offsetX, offsetY];
-
 }
 
 function draw(e) {
-    if(!isDrawing) return        
-        const { offsetX, offsetY } = e;
+    e.preventDefault();  // Prevenir comportamiento predeterminado (como desplazamiento en móvil)
+    if (!isDrawing) return;
 
-        // comenzar el trazo
-        ctx.beginPath();
+    const { offsetX, offsetY } = getEventCoords(e);
 
-        // mover el trazo a las coordenadas actuales
-        ctx.moveTo(lastX, lastY);
+    // Comenzar el trazo
+    ctx.beginPath();
 
-        //dibujar una linea hasta las coordenadas actuales
-        ctx.lineTo(offsetX, offsetY);
+    // Mover el trazo a las coordenadas actuales
+    ctx.moveTo(lastX, lastY);
 
-        ctx.stroke()
+    // Dibujar una línea hasta las coordenadas actuales
+    ctx.lineTo(offsetX, offsetY);
 
+    ctx.stroke();
 
-        //actualizar las coordenadas finales
-        ;[lastX, lastY] = [offsetX, offsetY];
-    
+    // Actualizar las coordenadas finales
+    [lastX, lastY] = [offsetX, offsetY];
 }
-
 
 function stopDrawing(e) {
     isDrawing = false;
 }
 
 function handleChangeColor(e) {
-    const {value} = $colorPicker;
+    const { value } = $colorPicker;
     ctx.strokeStyle = value;
 }
 
 function clearCanvas() {
-    ctx.clearRect(0 ,0 , $canvas.width, $canvas.height);
+    ctx.clearRect(0, 0, $canvas.width, $canvas.height);
 }
 
 function setMode(newMode) {
     mode = newMode;
     $('button.active')?.classList.remove('active');
 
-    if(mode === MODES.DRAW) {
+    if (mode === MODES.DRAW) {
         $drawBtn.classList.add('active');
-        canvas.style.cursor = 'crosshair';
+        $canvas.style.cursor = 'crosshair';
         return;
     }
-    if(mode === MODES.RECTANGLE) {
+    if (mode === MODES.RECTANGLE) {
         $rectangleBtn.classList.add('active');
         return;
     }
-    if(mode === MODES.ELLIPSE) {
+    if (mode === MODES.ELLIPSE) {
         $ellipseBtn.classList.add('active');
         return;
     }
-    if(mode === MODES.PICKER) {
+    if (mode === MODES.PICKER) {
         $pickerBtn.classList.add('active');
         return;
     }
-    if(mode === MODES.ERASE) {
+    if (mode === MODES.ERASE) {
         $eraseBtn.classList.add('active');
         return;
     }
