@@ -170,6 +170,7 @@ function draw(e) {
         ctx.stroke();
         return;
     }
+
     
     
 }
