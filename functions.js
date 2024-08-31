@@ -177,7 +177,15 @@ function draw(e) {
 
 //INIT 
 setMode(MODES.DRAW);
+function fillCanvasBackgroundWithColor(color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, $canvas.width, $canvas.height);
+}
 
+// Llamar a esta función al cargar la página o al inicializar el lienzo
+window.addEventListener('load', () => {
+    fillCanvasBackgroundWithColor('white');
+});
 function stopDrawing(e) {
     isDrawing = false;
 }
