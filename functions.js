@@ -24,6 +24,7 @@ const $pickerBtn = $('#picker-btn');
 const $eraseBtn = $('#erase-btn');
 const $lineWidth = $('#line-width');
 const $tunnelBtn = $('#tunnel-btn');
+const $downloadBtn = $('#download-btn');
 
 // STATE
 let isDrawing = false;
@@ -74,6 +75,14 @@ $tunnelBtn.addEventListener('click', (e) => {
         setMode(MODES.DRAW);
     }
 });
+$downloadBtn.addEventListener('click', () => {
+    const link = document.createElement('a');
+    link.download = 'mi-dibujo.jpg';
+    link.href = $canvas.toDataURL('image/jpeg', 0.92);
+    link.click();
+});
+
+
 
 // METHODS
 
@@ -149,6 +158,18 @@ function draw(e) {
         return;
     }
 
+    if (mode === MODES.ELLIPSE) {
+        ctx.putImageData(imageData, 0, 0);
+    
+        const width = offsetX - startX;
+        const height = offsetY - startY;
+    
+        ctx.beginPath();
+        ctx.ellipse(startX + width / 2, startY + height / 2, Math.abs(width / 2), Math.abs(height / 2), 0, 0, Math.PI * 2);
+        ctx.stroke();
+        return;
+    }
+    
     
 }
 

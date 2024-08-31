@@ -100,6 +100,10 @@ aside{
             border-right-color: #eee;
             border-bottom-color: #eee;
         }
+        &[disabled] {
+            pointer-events: none;
+            opacity: .5;
+          }
     }
 }
 
@@ -129,4 +133,8 @@ aside{
 #tunnel-btn{
     background-image: url('./09-paint-win-95/icons/tunnel.png');
     background-size: 24px;
+}
+#download-btn{
+    background-image: url('./09-paint-win-95/icons/floppyIcon.png');
+    background-size: 16px;
 }
