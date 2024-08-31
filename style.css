@@ -126,5 +126,8 @@ aside{
     width: 467px;
     height: 18px;
 }
-#line-width{
+#tunnel-btn{
+    background-image: url('./09-paint-win-95/icons/tunnel.png');
+    background-size: 18px;
+
 }

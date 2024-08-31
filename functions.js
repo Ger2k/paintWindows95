@@ -127,6 +127,8 @@ function draw(e) {
     if(mode === MODES.TUNNEL) {
         const width = offsetX - startX;
         const height = offsetY - startY;
+        ctx.lineWidth = 1;
+        $lineWidth.value = 1;
 
         ctx.beginPath();
         ctx.rect(startX, startY, width, height);
@@ -207,6 +209,12 @@ function setMode(newMode) {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.lineWidth = 10;
         $lineWidth.value = 10;
+        return;
+    }
+    if(mode === MODES.TUNNEL){
+        $tunnelBtn.classList.add('active');
+        console.log("Modo: " + mode);
+        ctx.globalCompositeOperation = 'source-over';
         return;
     }
 }
