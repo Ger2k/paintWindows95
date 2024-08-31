@@ -87,13 +87,14 @@ $downloadBtn.addEventListener('click', () => {
 // METHODS
 
 function getEventCoords(e) {
+    const rect = $canvas.getBoundingClientRect();
     if (e.touches) {
         // Si es un evento táctil, tomar la primera posición de toque
         const touch = e.touches[0];
-        return { offsetX: touch.clientX - $canvas.offsetLeft, offsetY: touch.clientY - $canvas.offsetTop };
+        return { offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top };
     } else {
         // Si es un evento de mouse
-        return { offsetX: e.offsetX, offsetY: e.offsetY };
+        return { offsetX: e.clientX - rect.left, offsetY: e.clientY - rect.top };
     }
 }
 
