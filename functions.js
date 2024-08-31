@@ -4,7 +4,8 @@ const MODES = {
     ERASE: 'erase',
     RECTANGLE: 'rectangle',
     ELLIPSE: 'ellipse',
-    PICKER: 'picker'
+    PICKER: 'picker',
+    TUNNEL: 'tunnel'
 };
 
 // UTILITIES
@@ -204,8 +205,7 @@ function setMode(newMode) {
     if (mode === MODES.ERASE) {
         $eraseBtn.classList.add('active');
         console.log("Modo: " + mode);
-        $eraseBtn.classList.add('active');
-        canvas.style.cursor = 'url("./09-paint-win-95/cursors/erase.png") 0 24 auto';
+        canvas.style.cursor = 'url("./09-paint-win-95/cursors/erase.png") 0 24, auto';
         ctx.globalCompositeOperation = 'destination-out';
         ctx.lineWidth = 10;
         $lineWidth.value = 10;
