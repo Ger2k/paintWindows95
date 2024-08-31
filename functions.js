@@ -175,6 +175,7 @@ function setMode(newMode) {
         console.log("Modo: " + mode);
         ctx.globalCompositeOperation = 'source-over';
         ctx.lineWidth = 2;
+        $lineWidth.value = 2;
         return;
     }
     if (mode === MODES.RECTANGLE) {
@@ -182,6 +183,7 @@ function setMode(newMode) {
         console.log("Modo: " + mode);
         canvas.style.cursor = 'nw-resize';
         ctx.lineWidth = 2;
+        $lineWidth.value = 2;
         ctx.globalCompositeOperation = 'source-over';
         return;
     }
@@ -204,6 +206,7 @@ function setMode(newMode) {
         canvas.style.cursor = 'url("./09-paint-win-95/cursors/erase.png") 0 24 auto';
         ctx.globalCompositeOperation = 'destination-out';
         ctx.lineWidth = 10;
+        $lineWidth.value = 10;
         return;
     }
 }
