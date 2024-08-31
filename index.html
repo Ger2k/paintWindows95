@@ -35,7 +35,7 @@
 
     <aside>
         <nav>
-            <button class="active" id="draw-btn" title="Pincel"></button>
+            <button id="draw-btn" title="Pincel"></button>
             <button id="erase-btn" title="Borrar"></button>
             <button id="rectangle-btn" title="Rectángulo"></button>
             <button id="ellipse-btn" title="Elipse"></button>
@@ -49,9 +49,10 @@
         <canvas id="canvas" width="300" height="200"></canvas>
     </main>
 
-
     <footer>
         <input type="color" id="color-picker" value="#000000">
+        <input type="range" id="line-width" min="1" max="25" value="1">Grosor del trazo</input>
+        <input type="checkbox" id="tunnel-btn">TUNNEL MODE
     </footer>
 </div>
 </body>

@@ -21,6 +21,8 @@ const $rectangleBtn = $('#rectangle-btn');
 const $ellipseBtn = $('#ellipse-btn');
 const $pickerBtn = $('#picker-btn');
 const $eraseBtn = $('#erase-btn');
+const $lineWidth = $('#line-width');
+const $tunnelBtn = $('#tunnel-btn');
 
 // STATE
 let isDrawing = false;
@@ -28,6 +30,7 @@ let startX, startY;
 let lastX = 0;
 let lastY = 0;
 let mode = MODES.DRAW;
+let imageData
 
 // EVENTS
 
@@ -59,6 +62,17 @@ $pickerBtn.addEventListener('click', () => {
 $eraseBtn.addEventListener('click', () => {
     setMode(MODES.ERASE);
 });
+$lineWidth.addEventListener('change', () => {
+    ctx.lineWidth = $lineWidth.value;
+});
+$tunnelBtn.addEventListener('click', (e) => {
+    console.log(e)
+    if(e.target.value = "on"){
+        setMode(MODES.TUNNEL);
+    }else{
+        setMode(MODES.DRAW);
+    }
+});
 
 // METHODS
 
@@ -81,6 +95,8 @@ function startDrawing(e) {
     // Guardar las coords iniciales
     [startX, startY] = [offsetX, offsetY];
     [lastX, lastY] = [offsetX, offsetY];
+
+    imageData = ctx.getImageData(0, 0, $canvas.width, $canvas.height);
 }
 
 function draw(e) {
@@ -89,20 +105,52 @@ function draw(e) {
 
     const { offsetX, offsetY } = getEventCoords(e);
 
-    // Comenzar el trazo
-    ctx.beginPath();
+    if(mode === MODES.DRAW || mode === MODES.ERASE) {
 
-    // Mover el trazo a las coordenadas actuales
-    ctx.moveTo(lastX, lastY);
+        // Comenzar el trazo
+        ctx.beginPath();
+    
+        // Mover el trazo a las coordenadas actuales
+        ctx.moveTo(lastX, lastY);
+    
+        // Dibujar una línea hasta las coordenadas actuales
+        ctx.lineTo(offsetX, offsetY);
+    
+        ctx.stroke();
+    
+        // Actualizar las coordenadas finales
+        [lastX, lastY] = [offsetX, offsetY];
+        return;
+    }
 
-    // Dibujar una línea hasta las coordenadas actuales
-    ctx.lineTo(offsetX, offsetY);
 
-    ctx.stroke();
+    if(mode === MODES.TUNNEL) {
+        const width = offsetX - startX;
+        const height = offsetY - startY;
 
-    // Actualizar las coordenadas finales
-    [lastX, lastY] = [offsetX, offsetY];
+        ctx.beginPath();
+        ctx.rect(startX, startY, width, height);
+        ctx.stroke();
+        return;
+    }
+
+    if(mode === MODES.RECTANGLE) {
+        ctx.putImageData(imageData, 0, 0);
+
+        const width = offsetX - startX;
+        const height = offsetY - startY;
+
+        ctx.beginPath();
+        ctx.rect(startX, startY, width, height);
+        ctx.stroke();
+        return;
+    }
+
+    
 }
+
+//INIT 
+setMode(MODES.DRAW);
 
 function stopDrawing(e) {
     isDrawing = false;
@@ -124,22 +172,40 @@ function setMode(newMode) {
     if (mode === MODES.DRAW) {
         $drawBtn.classList.add('active');
         $canvas.style.cursor = 'crosshair';
+        console.log("Modo: " + mode);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.lineWidth = 2;
         return;
     }
     if (mode === MODES.RECTANGLE) {
         $rectangleBtn.classList.add('active');
+        console.log("Modo: " + mode);
+        canvas.style.cursor = 'nw-resize';
+        ctx.lineWidth = 2;
+        ctx.globalCompositeOperation = 'source-over';
         return;
     }
     if (mode === MODES.ELLIPSE) {
         $ellipseBtn.classList.add('active');
+        console.log("Modo: " + mode);
+        ctx.globalCompositeOperation = 'source-over';
         return;
     }
     if (mode === MODES.PICKER) {
         $pickerBtn.classList.add('active');
+        console.log("Modo: " + mode);
+        ctx.globalCompositeOperation = 'source-over';
         return;
     }
     if (mode === MODES.ERASE) {
         $eraseBtn.classList.add('active');
+        console.log("Modo: " + mode);
+        $eraseBtn.classList.add('active');
+        canvas.style.cursor = 'url("./09-paint-win-95/cursors/erase.png") 0 24 auto';
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = 10;
         return;
     }
 }
+
+
