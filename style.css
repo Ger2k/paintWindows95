@@ -51,7 +51,11 @@ footer{
     grid-area: footer;
     background: silver;
     padding: 4px;
-
+    div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 #container {
     border: 1px solid #808080;
