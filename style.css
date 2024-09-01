@@ -142,3 +142,16 @@ aside{
     background-image: url('./09-paint-win-95/icons/floppyIcon.png');
     background-size: 16px;
 }
+
+@media only screen and (min-width: 1024px) {
+    canvas{
+        background: white;
+        height: 244px;
+        top: 57px;
+        left: 166px;
+        position: absolute;
+        padding: 0;
+        width: 413px;
+        cursor: crosshair;
+    }
+}
