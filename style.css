@@ -143,7 +143,7 @@ aside{
     background-size: 16px;
 }
 
-@media only screen and (min-width: 1024px) {
+/* @media only screen and (min-width: 1024px) {
     canvas{
         background: white;
         height: 244px;
@@ -154,4 +154,4 @@ aside{
         width: 413px;
         cursor: crosshair;
     }
-}
+} */
